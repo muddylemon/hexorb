@@ -1,10 +1,14 @@
 /*
     create the mockups for the models
+    this will create 24 tiles, placed in four rows
 */
 var tileData = (function() {
   var data = [];
   var i = 0;
 
+  /**
+   * Select 30 random colors, no closer that 100 color units
+   */
   var cs = Colors.get(30,100)
 
   for (var x = 0; x < 4; x++) {
