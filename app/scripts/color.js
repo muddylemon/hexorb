@@ -89,6 +89,43 @@ var Colors = (function() {
   // calculate the perceptual distance between colors in CIELAB
   // https://github.com/THEjoezack/ColorMine/blob/master/ColorMine/ColorSpaces/Comparisons/Cie94Comparison.cs
 
+  function distance(labA, labB) {
+      return deltaE(labA, labB);
+
+      return i < 0 ? 0 : Math.sqrt(i);
+  }
+
+  // returns the sum of the squares of
+  function labSq(lab){
+      return Math.sqrt(lab[1] * lab[1] + lab[2] * lab[2])
+  }
+
+  function deltaL(a,b){
+      return a[0] - b[0];
+  }
+
+  function deltaA(a,b) {
+      return a[1] - b[1];
+  }
+
+  function deltaB(a,b) {
+      return a[2] - b[2];
+  }
+
+  // the difference between the sum of the squares of a[1,2] and b[1,2]
+  function deltaC(a,b) {
+      return labSq(a) - labSq(b);
+  }
+
+  function deltaH(a,b) {
+      var   dA = deltaA(a,b),
+            dB = deltaB(a,b),
+            dC = deltaC(a,b),
+            h = (dA * dA) + (dB * dB) - (dC * dC);
+        return h < 0 ? 0 : Math.sqrt(h);
+  }
+
+
   function deltaE(labA, labB) {
     var deltaL = labA[0] - labB[0];
     var deltaA = labA[1] - labB[1];

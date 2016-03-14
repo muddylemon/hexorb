@@ -34,11 +34,25 @@ var TileView = Backbone.Marionette.ItemView.extend({
   tagName: 'li',
   className: 'tile',
   model: tileModel,
+  events: {
+      "click":"touchme"
+  },
+  touchme: function(){
+    console.log(this.model.toJSON());
+  },
   template: _.template('<span class="tile-color" ><%= x %>,<%=y%></span>'),
   onRender: function(){
       this.$el.css({
           "background-color":this.model.get('color')
-      })
+      });
+
+      if (this.model.get('active') == true){
+
+          var p = new playerView({
+              model: Player
+          })
+          this.$el.append(p.render().el)
+      }
   }
 });
 
@@ -66,5 +80,9 @@ var tileCollection = Backbone.Collection.extend({
 
 
 var tiles = new tileCollection(tileData);
+
+tiles.at(12).set({
+    'active':true
+});
 
 console.log(tiles);
