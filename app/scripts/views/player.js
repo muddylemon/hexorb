@@ -3,6 +3,10 @@ var playerModel = Backbone.Model.extend({
         x: 0,
         y: 0,
         color: "#FFFFFF"
+    },
+    absorb: function(){
+      // get the current tile color,
+      // change my color to something closer to the tile
     }
 });
 
