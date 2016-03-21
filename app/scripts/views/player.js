@@ -2,7 +2,7 @@ var playerModel = Backbone.Model.extend({
     defaults: {
         x: 0,
         y: 0,
-        color: "#FFFFFF"
+        color: "FFFFFF"
     },
     absorb: function(){
       // get the current tile color,
@@ -12,7 +12,7 @@ var playerModel = Backbone.Model.extend({
 
 var playerView = Backbone.Marionette.ItemView.extend({
     initialize: function() {
-
+      this.listenTo(this.model,'change:color',this.render);
     },
     model: playerModel,
     className: 'player',
@@ -23,5 +23,3 @@ var playerView = Backbone.Marionette.ItemView.extend({
         });
     }
 });
-
-var Player = new playerModel();
