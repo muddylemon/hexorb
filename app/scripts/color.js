@@ -11,8 +11,31 @@ var Colors = (function() {
     hex2rgb: function(h) {
       return [(h & (255 << 16)) >> 16, (h & (255 << 8)) >> 8, h & 255];
     },
+    absorb: function(a, b, amt) {
+
+      return [
+        scoot(a[0], b[0]),
+        scoot(a[1], b[1]),
+        scoot(a[2], b[2])
+      ];
+
+
+      function scoot(a, b) {
+
+        var diff = Math.ceil(a);
+
+        if (a < b) {
+          diff = Math.floor(b - ((b - a) * .02));
+        }
+
+        if (a > b) {
+          diff = Math.ceil(b + ((a - b) * .02));
+        }
+        return Math.min(255, Math.max( 0, diff));
+      }
+    },
     distance: function(a, b) {
-      var d = [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+      var d = [a[2] - b[0], a[1] - b[1], a[2] - b[2]];
       return Math.sqrt((d[0] * d[0]) + (d[1] * d[1]) + (d[2] * d[2]));
     },
     fresh: function(sofar, d) {
@@ -33,11 +56,6 @@ var Colors = (function() {
     }
 
   }
-
-
-
-
-
 
 
   function lab2rgb(lab) {
@@ -90,39 +108,39 @@ var Colors = (function() {
   // https://github.com/THEjoezack/ColorMine/blob/master/ColorMine/ColorSpaces/Comparisons/Cie94Comparison.cs
 
   function distance(labA, labB) {
-      return deltaE(labA, labB);
+    return deltaE(labA, labB);
 
-      return i < 0 ? 0 : Math.sqrt(i);
+    return i < 0 ? 0 : Math.sqrt(i);
   }
 
   // returns the sum of the squares of
-  function labSq(lab){
-      return Math.sqrt(lab[1] * lab[1] + lab[2] * lab[2])
+  function labSq(lab) {
+    return Math.sqrt(lab[1] * lab[1] + lab[2] * lab[2])
   }
 
-  function deltaL(a,b){
-      return a[0] - b[0];
+  function deltaL(a, b) {
+    return a[0] - b[0];
   }
 
-  function deltaA(a,b) {
-      return a[1] - b[1];
+  function deltaA(a, b) {
+    return a[1] - b[1];
   }
 
-  function deltaB(a,b) {
-      return a[2] - b[2];
+  function deltaB(a, b) {
+    return a[2] - b[2];
   }
 
   // the difference between the sum of the squares of a[1,2] and b[1,2]
-  function deltaC(a,b) {
-      return labSq(a) - labSq(b);
+  function deltaC(a, b) {
+    return labSq(a) - labSq(b);
   }
 
-  function deltaH(a,b) {
-      var   dA = deltaA(a,b),
-            dB = deltaB(a,b),
-            dC = deltaC(a,b),
-            h = (dA * dA) + (dB * dB) - (dC * dC);
-        return h < 0 ? 0 : Math.sqrt(h);
+  function deltaH(a, b) {
+    var dA = deltaA(a, b),
+      dB = deltaB(a, b),
+      dC = deltaC(a, b),
+      h = (dA * dA) + (dB * dB) - (dC * dC);
+    return h < 0 ? 0 : Math.sqrt(h);
   }
 
 
@@ -148,6 +166,16 @@ var Colors = (function() {
 
 }());
 
+// practice absorbing
 
-var p = Colors.get(3, 100);
-console.log("CO", p);
+// var a = Colors.hex2rgb(0x00FF00),
+//   b = Colors.hex2rgb(0x000044),
+//   res = [];
+//
+//
+// for (var i = 0; i < 440; i++) {
+//   b = Colors.absorb(a, b);
+//   res.push('<div class="winko" style="background-color:rgb(' + b.toString(16) + ');">' + i + '</div>');
+// }
+//
+// $("html").prepend(res);
