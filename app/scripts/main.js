@@ -12,6 +12,9 @@ Game.round = 0;
   Game.on('start', function(options) {
 
     Game.Player = new playerModel();
+    Game.Avatar = new playerView({
+      model: Game.Player
+    });
 
     /*
         create the mockups for the models
@@ -53,10 +56,16 @@ Game.round = 0;
 
     tiles.on('selected',function(model){
         Game.currentColor = model.get('color').replace('#','');
+        Game.Player.set({
+          x: model.get('x'),
+          y: model.get('y')
+        });
 
     });
 
     Game.board.show(tc);
+
+    $(".game").append(Game.Avatar.render().el);
 
     Game.pulse = setInterval(function(){
         //console.log(Game.round++);

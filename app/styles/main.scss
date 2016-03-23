@@ -1,22 +1,17 @@
 $icon-font-path: '../fonts/';
-
 // bower:scss
-@import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-// endbower
-
+@import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss"; // endbower
 .browserupgrade {
   margin: 0.2em 0;
   background: #ccc;
   color: #000;
   padding: 0.2em 0;
 }
-
 /* Space out content a bit */
 body {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
@@ -24,11 +19,9 @@ body {
   padding-left: 15px;
   padding-right: 15px;
 }
-
 /* Custom page header */
 .header {
   border-bottom: 1px solid #e5e5e5;
-
   /* Make the masthead heading the same height as the navigation */
   h3 {
     margin-top: 0;
@@ -37,18 +30,15 @@ body {
     padding-bottom: 19px;
   }
 }
-
 /* Custom page footer */
 .footer {
   padding-top: 19px;
   color: #777;
   border-top: 1px solid #e5e5e5;
 }
-
 .container-narrow > hr {
   margin: 30px 0;
 }
-
 /* Main marketing message and sign up button */
 #app {
   text-align: center;
@@ -58,56 +48,50 @@ body {
     padding: 14px 24px;
   }
 }
-
 .game {
-    width: 605px;
-    height: 405px;
-    background-color: #CCC;
-    border: 2px solid #369;
-    margin: 10px auto;
+  width: 605px;
+  height: 405px;
+  background-color: #CCC;
+  border: 2px solid #369;
+  margin: 10px auto;
 }
-
 .board {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
 }
-
 .winko {
-  float:left;
+  float: left;
   height: 20px;
   width: 20px;
   margin: 0;
 }
-
 .tile {
-    width: 100px;
-    height: 100px;
-    margin: 0;
-    border: 1px solid #006;
+  width: 100px;
+  height: 100px;
+  margin: 0;
+  border: 1px solid #006;
 }
-
 .active {
   border: 2px solid #F00;
 }
-
 .player {
-    width: 50px;
-    height: 50px;
-    margin: 9px auto;
-    border: 1px solid #600;
+  position: absolute;
+  top: 10;
+  left: 10;
+  width: 50px;
+  height: 50px;
+  margin: 9px auto;
+  border: 1px solid #600;
 }
-
-
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {
     max-width: 730px;
   }
-
   /* Remove the padding we set earlier */
   .header,
   .marketing,
@@ -115,12 +99,10 @@ body {
     padding-left: 0;
     padding-right: 0;
   }
-
   /* Space out the masthead */
   .header {
     margin-bottom: 30px;
   }
-
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
