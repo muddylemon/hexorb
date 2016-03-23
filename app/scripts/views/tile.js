@@ -1,34 +1,3 @@
-/*
-    create the mockups for the models
-    this will create 24 tiles, placed in four rows
-*/
-var tileData = (function() {
-  var data = [];
-  var i = 0;
-
-  /**
-   * Select 30 random colors, no closer that 100 color units
-   */
-  var cs = Colors.get(30, 100)
-
-  for (var x = 0; x < 4; x++) {
-    for (var y = 0; y < 6; y++) {
-      data.push({
-        x: x,
-        y: y,
-        color: cs[i++]
-      });
-
-    }
-
-  }
-  return data;
-
-})();
-
-
-console.log("TD", tileData)
-
 
 var TileView = Backbone.Marionette.ItemView.extend({
   tagName: 'li',
@@ -44,16 +13,13 @@ var TileView = Backbone.Marionette.ItemView.extend({
   touchme: function() {
     this.model.select();
   },
-  deselectTile: function(){
-    $(".active").removeClass('active');
+  deselectTile: function() {
+    this.$el.removeClass('active');
     this.render();
   },
-  selectTile: function(){
-          var p = new playerView({
-        model: Player
-      })
-      this.$el.append(p.render().el);
-      this.$el.addClass('active');
+  selectTile: function() {
+    this.$el.addClass('active');
+    console.log("Activated", this.model)
   },
   template: _.template('<span class="tile-color" ><%= x %>,<%=y%></span>'),
   onRender: function() {
@@ -133,7 +99,7 @@ var tileCollection = Backbone.Collection.extend({
 
     this.selected = model;
     this.selected.select();
-    this.trigger("select:one", model);
+    this.trigger("selected", model);
   },
 
   // Deselect a model, resulting in no model
@@ -149,17 +115,7 @@ var tileCollection = Backbone.Collection.extend({
     }
 
     this.selected.deselect();
-    this.trigger("deselect:one", this.selected);
+    this.trigger("deselected", this.selected);
     delete this.selected;
   }
 });
-
-
-
-var tiles = new tileCollection(tileData);
-
-tiles.at(12).set({
-  'active': true
-});
-
-console.log(tiles);

@@ -1,17 +1,72 @@
-
 (function($, _, Backbone) {
 
   var Game = new Backbone.Marionette.Application();
 
-  console.log(Game)
+  Game.addRegions({
+    app: "#app",
+    board: "#board"
+});
 
-  var Player = new playerModel();
+Game.round = 0;
 
-  var tc = new TileCollectionView({
-    collection: tiles
+  Game.on('start', function(options) {
+
+    Game.Player = new playerModel();
+
+    /*
+        create the mockups for the models
+        this will create 24 tiles, placed in four rows
+    */
+    var tileData = (function() {
+      var data = [];
+      var i = 0;
+
+      /**
+       * Select 30 random colors, no closer that 100 color units
+       */
+      var cs = Colors.get(30, 100)
+
+      for (var x = 0; x < 4; x++) {
+        for (var y = 0; y < 6; y++) {
+          data.push({
+            x: x,
+            y: y,
+            color: cs[i++]
+          });
+
+        }
+
+      }
+      return data;
+
+    })();
+
+    var tiles = new tileCollection(tileData);
+
+    tiles.at(12).set({
+      'active': true
+    });
+
+    var tc = new TileCollectionView({
+      collection: tiles,
+    });
+
+    tiles.on('selected',function(model){
+        Game.currentColor = model.get('color').replace('#','');
+
+    });
+
+    Game.board.show(tc);
+
+    Game.pulse = setInterval(function(){
+        //console.log(Game.round++);
+        Game.Player.absorb(Game.currentColor);
+
+    },1200);
+
   });
 
-  $(".game").html(tc.render().el);
 
+  Game.start();
 
 }(jQuery, _, Backbone));

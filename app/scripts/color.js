@@ -9,14 +9,18 @@ var Colors = (function() {
       return a;
     },
     hex2rgb: function(h) {
+        if (Array.isArray(h)) return h;
       return [(h & (255 << 16)) >> 16, (h & (255 << 8)) >> 8, h & 255];
     },
     absorb: function(a, b, amt) {
+        var rgbA = this.hex2rgb(a),
+            rgbB = this.hex2rgb(b);
+        console.log(rgbA,rgbB);
 
       return [
-        scoot(a[0], b[0]),
-        scoot(a[1], b[1]),
-        scoot(a[2], b[2])
+        scoot(rgbA[0], rgbB[0]),
+        scoot(rgbA[1], rgbB[1]),
+        scoot(rgbA[2], rgbB[2])
       ];
 
 
