@@ -9,11 +9,11 @@ var Colors = (function() {
       return a;
     },
     hex2rgb: function(hex) {
-      if (Array.isArray(hex)){
+      if (Array.isArray(hex)) {
         return hex;
       }
 
-      var h = parseInt(hex.toString().replace('#',''),16);
+      var h = parseInt(hex.toString().replace('#', ''), 16);
       return [(h & (255 << 16)) >> 16, (h & (255 << 8)) >> 8, h & 255];
     },
     rgb2hex: function(rgb) {
@@ -30,29 +30,28 @@ var Colors = (function() {
     },
 
     absorb: function(a, b) {
-      var rgbA = this.hex2rgb(a),
-        rgbB = this.hex2rgb(b);
 
       return [
-        scoot(rgbA[0], rgbB[0]),
-        scoot(rgbA[1], rgbB[1]),
-        scoot(rgbA[2], rgbB[2])
+        scoot(a[0], b[0]),
+        scoot(a[1], b[1]),
+        scoot(a[2], b[2])
       ];
 
-
+      /**
+       * push the number X% closer to the other one
+       * return the result (between 0 and 255)
+       */
       function scoot(a, b) {
-
         var diff = Math.ceil(a);
-
         if (a < b) {
           diff = Math.floor(b - ((b - a) * .04));
         }
-
         if (a > b) {
           diff = Math.ceil(b + ((a - b) * .04));
         }
         return Math.min(255, Math.max(0, diff));
       }
+
     },
     distance: function(a, b) {
       var d = [a[2] - b[0], a[1] - b[1], a[2] - b[2]];
@@ -65,12 +64,14 @@ var Colors = (function() {
         n = Math.random() * 0xFFFFFF << 0;
         for (var c in sofar) {
           if (this.distance(this.hex2rgb(sofar[c]), this.hex2rgb(n)) < d) {
+            console.log(this.distance(this.hex2rgb(sofar[c]), this.hex2rgb(n)));
+            
             ok = false;
             break;
           }
         }
         if (ok) {
-          return '#' + n.toString(16);
+          return this.hex2rgb(n);
         }
       }
     }

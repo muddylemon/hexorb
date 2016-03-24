@@ -1,4 +1,3 @@
-
 var TileView = Backbone.Marionette.ItemView.extend({
   tagName: 'li',
   className: 'tile',
@@ -19,13 +18,13 @@ var TileView = Backbone.Marionette.ItemView.extend({
   },
   selectTile: function() {
     this.$el.addClass('active');
-    console.log("Activated", this.model)
   },
   template: _.template('<span class="tile-color" ><%= x %>,<%=y%></span>'),
   onRender: function() {
     this.$el.removeClass('active');
+    var c = this.model.get('color');
     this.$el.css({
-      "background-color": this.model.get('color')
+      "background-color": 'rgb(' + c[0] + ',' + c[1] + ',' + c[2] + ')'
     });
   }
 });
@@ -41,7 +40,7 @@ var tileModel = Backbone.Model.extend({
   defaults: {
     x: 0,
     y: 0,
-    color: 0x00000
+    color: [0, 0, 0]
   },
   // Select this model, and tell our
   // collection that we're selected

@@ -5,9 +5,9 @@
   Game.addRegions({
     app: "#app",
     board: "#board"
-});
+  });
 
-Game.round = 0;
+  Game.round = 0;
 
   Game.on('start', function(options) {
 
@@ -27,7 +27,7 @@ Game.round = 0;
       /**
        * Select 30 random colors, no closer that 100 color units
        */
-      var cs = Colors.get(30, 100);
+      var cs = Colors.get(30, 50);
 
       for (var x = 0; x < 4; x++) {
         for (var y = 0; y < 6; y++) {
@@ -44,24 +44,25 @@ Game.round = 0;
 
     })();
 
+    console.log(tileData);
+
+
     var tiles = new tileCollection(tileData);
 
-    tiles.at(12).set({
-      'active': true
-    });
+
 
     var tc = new TileCollectionView({
       collection: tiles,
     });
 
-    tiles.on('selected',function(model){
+    tiles.on('selected', function(model) {
 
-        Game.currentColor = model.get('color');
+      Game.currentColor = model.get('color');
 
-        Game.Player.set({
-          x: model.get('x'),
-          y: model.get('y')
-        });
+      Game.Player.set({
+        x: model.get('x'),
+        y: model.get('y')
+      });
 
     });
 
@@ -69,11 +70,16 @@ Game.round = 0;
 
     $("#board").append(Game.Avatar.render().el);
 
-    Game.pulse = setInterval(function(){
+    Game.pulse = setInterval(function() {
+      if (!Game.currentColor) return;
 
-        Game.Player.absorb(Game.currentColor);
+      Game.Player.absorb(Game.currentColor);
 
-    },1200);
+    }, 800);
+
+    tiles.at(12).set({
+      'active': true
+    });
 
   });
 

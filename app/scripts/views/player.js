@@ -2,21 +2,17 @@ var playerModel = Backbone.Model.extend({
   defaults: {
     x: 0,
     y: 0,
-    color: "FFFFFF"
+    color: [255, 255, 255],
+    rgb: 'rgb(255,255,255)'
+  },
+  toRGB: function() {
+    var c = this.get('color');
+    this.set('rgb','rgb('+c[0]+','+c[1]+','+c[2]+')');
+    return this.get('rgb');
   },
   absorb: function(currentColor) {
-
-    var mColor = this.get('color');
-
-    var abb = Colors.absorb(currentColor, mColor);
-
-    console.log("Absorbing to ", mColor, currentColor, abb);
-
-    this.set('color', '#' + Colors.rgb2hex(abb).toString(16));
-
-    // get the current tile color,
-    // change my color to something closer to the tile
-
+    this.set('color', Colors.absorb(currentColor, this.get('color')));
+    this.toRGB();
   }
 });
 
@@ -24,15 +20,14 @@ var playerView = Backbone.Marionette.ItemView.extend({
   initialize: function() {
 
     this.listenTo(this.model, 'change:color', function() {
-      console.log("CCCC", this.model.get('color'));
 
       this.$el.css({
-        "background-color": this.model.get('color')
+        "background-color": this.model.toRGB()
       });
       this.render();
     });
 
-    this.listenTo(this.model, 'change:x change:y', function() {
+    this.listenTo(this.model, 'change:x change:y', _.debounce(function() {
 
       var top = (this.model.get('x') * 100),
         left = (this.model.get('y') * 100) + 25;
@@ -42,10 +37,10 @@ var playerView = Backbone.Marionette.ItemView.extend({
         left: left
       });
       this.render();
-    });
+    },500));
 
   },
   model: playerModel,
   className: 'player',
-  template: _.template('<%= x %>,<%=y%><br><%= color %>')
+  template: _.template('<%= x %>,<%=y%><br><%= rgb %>')
 });
