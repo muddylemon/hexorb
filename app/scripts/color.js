@@ -8,14 +8,30 @@ var Colors = (function() {
       }
       return a;
     },
-    hex2rgb: function(h) {
-        if (Array.isArray(h)) return h;
+    hex2rgb: function(hex) {
+      if (Array.isArray(hex)){
+        return hex;
+      }
+
+      var h = parseInt(hex.toString().replace('#',''),16);
       return [(h & (255 << 16)) >> 16, (h & (255 << 8)) >> 8, h & 255];
     },
-    absorb: function(a, b, amt) {
-        var rgbA = this.hex2rgb(a),
-            rgbB = this.hex2rgb(b);
-        console.log(rgbA,rgbB);
+    rgb2hex: function(rgb) {
+
+      function toHex(n) {
+        n = parseInt(n, 10);
+        if (isNaN(n)) return "00";
+        n = Math.max(0, Math.min(n, 255));
+        return "0123456789ABCDEF".charAt((n - n % 16) / 16) + "0123456789ABCDEF".charAt(n % 16);
+      }
+
+      return toHex(rgb[0]) + toHex(rgb[1]) + toHex(rgb[2]);
+
+    },
+
+    absorb: function(a, b) {
+      var rgbA = this.hex2rgb(a),
+        rgbB = this.hex2rgb(b);
 
       return [
         scoot(rgbA[0], rgbB[0]),
@@ -29,13 +45,13 @@ var Colors = (function() {
         var diff = Math.ceil(a);
 
         if (a < b) {
-          diff = Math.floor(b - ((b - a) * .02));
+          diff = Math.floor(b - ((b - a) * .04));
         }
 
         if (a > b) {
-          diff = Math.ceil(b + ((a - b) * .02));
+          diff = Math.ceil(b + ((a - b) * .04));
         }
-        return Math.min(255, Math.max( 0, diff));
+        return Math.min(255, Math.max(0, diff));
       }
     },
     distance: function(a, b) {

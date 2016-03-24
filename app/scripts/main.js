@@ -27,7 +27,7 @@ Game.round = 0;
       /**
        * Select 30 random colors, no closer that 100 color units
        */
-      var cs = Colors.get(30, 100)
+      var cs = Colors.get(30, 100);
 
       for (var x = 0; x < 4; x++) {
         for (var y = 0; y < 6; y++) {
@@ -55,7 +55,9 @@ Game.round = 0;
     });
 
     tiles.on('selected',function(model){
-        Game.currentColor = model.get('color').replace('#','');
+
+        Game.currentColor = model.get('color');
+
         Game.Player.set({
           x: model.get('x'),
           y: model.get('y')
@@ -65,10 +67,10 @@ Game.round = 0;
 
     Game.board.show(tc);
 
-    $(".game").append(Game.Avatar.render().el);
+    $("#board").append(Game.Avatar.render().el);
 
     Game.pulse = setInterval(function(){
-        //console.log(Game.round++);
+
         Game.Player.absorb(Game.currentColor);
 
     },1200);
